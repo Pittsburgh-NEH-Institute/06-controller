@@ -1,0 +1,41 @@
+{
+  "name": "06-controller",
+  "version": "1.0.0",
+  "description": "My amazing 06-controller application",
+  "homepage": "https://github.com/djbpitt/06-controller#readme",
+  "bugs": "https://github.com/djbpitt/06-controller/issues",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "keywords": [
+    "exist",
+    "exist-db",
+    "xml",
+    "xql",
+    "xquery"
+  ],
+  "author": {
+    "name": "djbpitt",
+    "email": "djbpitt@gmail.com"
+  },
+  "license": "MIT",
+  "scripts": {
+    "test": "mocha test/mocha/ --recursive --exit && mocha test/xqs/*.js",
+    "cypress": "cypress run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/djbpitt/06-controller",
+    "license": "MIT"
+  },
+  "devDependencies": {
+    "chai": "^4.3.6",
+    "chai-xml": "^0.4.0",
+    "cypress": "^10.0.2",
+    "fs-extra": "^10.1.0",
+    "mocha": "^10.0.0",
+    "supertest": "^6.2.3",
+    "xmldoc": "^1.1.2",
+    "yeoman-assert": "^3.1.1"
+  }
+}
