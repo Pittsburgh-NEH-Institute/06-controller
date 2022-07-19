@@ -22,14 +22,32 @@ declare variable $data as document-node() := request:get-data();
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <title>Article titles</title>
-        <link rel="stylesheet" type="text/css" href="resources/css/style.css"/>
+        <style>
+            body {{
+                font-family: Verdana, Arial, Helvetica, sans-serif;
+            }}
+            input {{
+                margin-right: 1em;
+            }}
+        </style>
     </head>
     <body>
         <h1>Article titles</h1>
-        <ul>{
-            for $title in $data/descendant::m:title
-            order by $title
-            return <li>{$title ! string()}</li>
-        }</ul>
+        
+        <form action="titles" method="get">
+            <input id="term" name="term" placeholder="[Search term]" value="{request:get-parameter('term','')}"/>
+            <input id="submit" type="submit" value="Submit"/>
+            <button id="clear-form" onclick="document.getElementById('term').value='';">Reset</button>
+        </form>
+
+        {if ($data//descendant::m:title)
+        then
+            <ul>{
+                for $title in $data/descendant::m:title
+                order by $title
+                return <li>{$title ! string()}</li>
+            }</ul>
+        else
+            <p>No matching articles found.</p>}
     </body>
 </html>
