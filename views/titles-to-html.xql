@@ -29,6 +29,10 @@ declare variable $data as document-node() := request:get-data();
             input {{
                 margin-right: 1em;
             }}
+            p.error {{
+                color: red;
+                font-style: italic;
+            }}
         </style>
     </head>
     <body>
@@ -49,5 +53,11 @@ declare variable $data as document-node() := request:get-data();
             }</ul>
         else
             <p>No matching articles found.</p>}
+            
+        {if ($data/descendant::m:error)
+        then
+            <p class="error">{$data/descendant::m:error}</p>
+        else
+            ()}
     </body>
 </html>

@@ -27,8 +27,7 @@ If the user supplies no value $request:get-parameter() thinks it's an empty
     and turns it into an empty sequence if it is an empty string. Having an empty
     sequence instead of an empty string becomes useful later.
 ==========:)
-declare variable $retrieved-term as xs:string? := (request:get-parameter('term', ()));
-declare variable $term as xs:string? := if ($retrieved-term) then $retrieved-term else ();
+declare variable $term as xs:string? := (request:get-parameter('term', ''));
 
 (:==========
 Declare variables
@@ -50,13 +49,14 @@ declare variable $articles-coll := collection($path-to-data || '/hoax_xml');
     The third version keeps articles with text that contains $term (case-insensitive).
     If there is no specified term, matches() needs an empty string, as its second argument! 
 :)
-declare variable $regex-term as xs:string := if ($term) then $term else '';
-declare variable $articles as element(tei:TEI)* := $articles-coll/tei:TEI[matches(., $regex-term, 'i')];
-
-<m:titles>{
-    for $article in $articles 
-    return
-        <m:title>{ 
-            $article/descendant::tei:titleStmt/tei:title ! string()
-        }</m:title>
-}</m:titles>
+try {
+    <m:titles>{
+        for $article in $articles-coll/tei:TEI[matches(., $term, 'i')] 
+        return
+            <m:title>{ 
+                $article/descendant::tei:titleStmt/tei:title ! string()
+            }</m:title>
+    }</m:titles>
+} catch * {
+    <m:error>{$err:description}</m:error>
+}
