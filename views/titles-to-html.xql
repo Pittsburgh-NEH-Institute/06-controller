@@ -27,9 +27,12 @@ declare variable $data as document-node() := request:get-data();
     <body>
         <h1>Article titles</h1>
         <ul>{
-            for $title in $data/descendant::m:title
-            order by $title
-            return <li>{$title ! string()}</li>
+            for $titleStmt in $data/m:titles/m:titleStmt
+            for $element in $titleStmt/child::element()
+            return typeswitch($element)
+                case element(m:title) return <li><a href="">{$element/text()}</a></li>
+                case element(m:resp) return <span><i>{$element/m:resp-resp/text() || " " || $element/m:resp-name/text() }</i><br/></span>
+                default return ()
         }</ul>
     </body>
 </html>
