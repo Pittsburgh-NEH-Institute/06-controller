@@ -24,7 +24,7 @@ declare variable $data as document-node() := request:get-data();
 declare function local:dispatch($node as node()*) as item()* {
     typeswitch($node) 
         case text() return $node
-        case element(tei:TEI) return 
+        case element(m:result) return 
             <html xmlns="http://www.w3.org/1999/xhtml">
                 <head>
                     <title>{$node//tei:titleStmt/tei:title/text()}</title>
@@ -34,7 +34,9 @@ declare function local:dispatch($node as node()*) as item()* {
                     <div class="byline">
                         <address class="author">{local:passthru($node//tei:respStmt[1])}</address>
                     </div>
-                    {local:passthru($node//tei:body)}
+                    {(local:passthru($node//tei:body), 
+                      <hr width="60%"/>,
+                      local:passthru($node//m:aux))}
                 </body>
             </html>
         case element(tei:p) return 
@@ -43,6 +45,9 @@ declare function local:dispatch($node as node()*) as item()* {
             </p>
         case element(tei:q) return '"' || local:passthru($node) || '"'
         case element(tei:rs) return <i xmlns="http://www.w3.org/1999/xhtml">{local:passthru($node)}</i>
+        case element(m:publisher) return (<b xmlns="http://www.w3.org/1999/xhtml">{$node/text()}</b>, " ")
+        case element(m:date) return (<i xmlns="http://www.w3.org/1999/xhtml">{$node/text()}</i>, " ")
+        case element(m:place) return <a xmlns="http://www.w3.org/1999/xhtml" href='https://www.google.com/maps/@{fn:tokenize($node/m:geo," ") => string-join(",")},15z'>{$node/m:name/text()}</a>
         default return local:passthru($node)
 };
 
