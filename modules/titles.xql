@@ -30,16 +30,18 @@ declare variable $persons as element(tei:listPerson)+ := $aux-coll/tei:TEI//tei:
 <m:titles>{
     for $article in $articles 
     return
+      <m:titleStmt>{
         (<m:title>{ 
             $article/descendant::tei:titleStmt/tei:title ! string()
         }</m:title>,
 	for $resp-name in $article/descendant::tei:titleStmt/tei:respStmt/tei:name 
-	return <m:resp>
+	return <m:resp-stmt>
 	         <m:resp-name>{ 
 		    $resp-name ! string()
 	         }</m:resp-name>
 	         <m:resp-resp>{ 
 		    $resp-name/preceding-sibling::tei:resp ! string()
 	         }</m:resp-resp>
-	       </m:resp>)
+	       </m:resp-stmt>)
+      }</m:titleStmt>
 }</m:titles>
