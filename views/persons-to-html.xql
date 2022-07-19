@@ -25,7 +25,7 @@ declare variable $data as document-node() := request:get-data();
         <link rel="stylesheet" type="text/css" href="resources/css/style.css"/>
     </head>
     <body>
-        <h1>Persons</h1>
+        <h1>List of Persons</h1>
         <table>
             <tr><th>Name</th><th>About</th><th>Job</th><th>Role</th><th>Gender</th></tr>
             {for $entry as element(m:entry)* in $data/descendant::m:entry
