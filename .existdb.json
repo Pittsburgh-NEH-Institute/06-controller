@@ -11,7 +11,7 @@
     "server": "localhost",
     "active": true,
     "ignore": [
-      ".DS_Store"
+      ".DS_Store",
       ".existdb.json",
       ".git/**",
       ".github/**",
