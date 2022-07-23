@@ -3,3 +3,4 @@ table, tr, th, td {
     border-collapse: collapse;
 }
 th, td {padding: .3em;}
+.error {color: red;}

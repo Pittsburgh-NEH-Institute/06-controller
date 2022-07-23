@@ -22,18 +22,7 @@ declare variable $data as document-node() := request:get-data();
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <title>Article titles</title>
-        <style>
-            body {{
-                font-family: Verdana, Arial, Helvetica, sans-serif;
-            }}
-            input {{
-                margin-right: 1em;
-            }}
-            p.error {{
-                color: red;
-                font-style: italic;
-            }}
-        </style>
+        <link rel="stylesheet" type="text/css" href="resources/css/style.css"/>
     </head>
     <body>
         <h1>Article titles</h1>        
@@ -42,21 +31,18 @@ declare variable $data as document-node() := request:get-data();
             <input id="submit" type="submit" value="Submit"/>
             <button id="clear-form" onclick="document.getElementById('term').value='';">Reset</button>
         </form>
-
         {if ($data//descendant::m:title)
-        then
+        then (: Found articles, so return list:)
             <ul>{
                 for $title in $data/descendant::m:title
                 order by $title
                 return <li>{$title ! string()}</li>
             }</ul>
-        else
+        else if (($data/descendant::m:error))
+        then (: Invalid search term, so return error:)
+            (<p>Invalid search. The error notification reads:</p>,
+            <p class="error">{$data/descendant::m:error}</p>)
+        else (: Valid search term, but no result, so return notification:)
             <p>No matching articles found.</p>}
-            
-        {if ($data/descendant::m:error)
-        then
-            <p class="error">{$data/descendant::m:error}</p>
-        else
-            ()}
     </body>
 </html>
