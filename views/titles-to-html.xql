@@ -36,15 +36,7 @@ declare variable $data as document-node() := request:get-data();
         </style>
     </head>
     <body>
-        <h1>Article titles</h1>
-<<<<<<< HEAD
-        <ul>{
-            for $title in $data/descendant::m:title
-            return 
-                <li>{$title ! string()}</li>
-        }</ul>
-=======
-        
+        <h1>Article titles</h1>        
         <form action="titles" method="get">
             <input id="term" name="term" placeholder="[Search term]" value="{request:get-parameter('term','')}"/>
             <input id="submit" type="submit" value="Submit"/>
@@ -66,6 +58,5 @@ declare variable $data as document-node() := request:get-data();
             <p class="error">{$data/descendant::m:error}</p>
         else
             ()}
->>>>>>> feature/search
     </body>
 </html>
